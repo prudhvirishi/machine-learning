@@ -1,0 +1,47 @@
+---
+title: "Untitled"
+author: "Prudhvi Peddmallu"
+date: "4 April 2019"
+output: html_document
+---
+```{r}
+library(neuralnet)
+
+set.seed(1234567890)
+Var <- runif(50, 0, 3)
+tr <- data.frame(Var, Sin=sin(Var))
+Var <- runif(50, 3, 9)
+te <- data.frame(Var, Sin=sin(Var))
+```
+
+```{r}
+#setwd("your directory")
+mydata <- read.csv("dividendinfo-1.csv")
+#attach(mydata)
+##Data Normalization-This involves adjusting the data to a common scale so as to accurately compare predicted and actual values.
+scaleddata<-scale(mydata)
+normalize <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+maxmindf <- as.data.frame(lapply(mydata, normalize))
+#We base our training data (trainset) on 80% of the observations. The test data (testset) is based on the remaining 20% of observations.
+# Training and Test Data we have 459 observations in data so 80% is 367 are train and remaining are test data
+trainset <- maxmindf[1:160, ]
+testset <- maxmindf[161:200, ]
+#Neural Network
+#Neural Network
+library(neuralnet)
+nn <- neuralnet(dividend ~ fcfps + earnings_growth + de + mcap + current_ratio, data=trainset, hidden=c(2,1), linear.output=FALSE, threshold=0.01)
+nn$result.matrix
+plot(nn)
+#Testing The Accuracy Of The Model
+#Test the resulting output
+temp_test <- subset(testset, select = c("fcfps","earnings_growth", "de", "mcap", "current_ratio"))
+head(temp_test)
+nn.results <- compute(nn, temp_test)
+results <- data.frame(actual = testset$dividend, prediction = nn.results$net.result)
+
+
+
+```
+

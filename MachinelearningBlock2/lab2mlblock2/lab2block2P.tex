@@ -1,0 +1,767 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Lab2Block2},
+            pdfauthor={Prudhvi Peddmallu},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Lab2Block2}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Prudhvi Peddmallu}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{22 April 2019}
+
+
+\begin{document}
+\maketitle
+
+\section{Assignment 1. Using GAM and GLM to examine the mortality
+rates}\label{assignment-1.-using-gam-and-glm-to-examine-the-mortality-rates}
+
+The Excel document influenza.xlsx contains weekly data on the mortality
+and the number of laboratory-confirmed cases of influenza in Sweden. In
+addition, there is information about population-weighted temperature
+anomalies (temperature deficits).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Use time series plots to visually inspect how the mortality and
+  influenza number vary with time (use Time as X axis). By using this
+  plot, comment how the amounts of influenza cases are related to
+  mortality rates.
+\item
+  Use gam() function from mgcv package to fit a GAM model in which
+  Mortality is normally distributed and modelled as a linear function of
+  Year and spline function of Week, and make sure that the model
+  parameters are selected by the generalized cross-validation. Report
+  the underlying probabilistic model.
+\item
+  Plot predicted and observed mortality against time for the fitted
+  model and comment on the quality of the fit. Investigate the output of
+  the GAM model and report which terms appear to be significant in the
+  model. Is there a trend in mortality change from one year to another?
+  Plot the spline component and interpret the plot.
+\item
+  Examine how the penalty factor of the spline function in the GAM model
+  from step 2 influences the estimated deviance of the model. Make plots
+  of the predicted and observed mortality against time for cases of very
+  high and very low penalty factors. What is the relation of the penalty
+  factor to the degrees of freedom? Do your results confirm this
+  relationship?
+\item
+  Use the model obtained in step 2 and plot the residuals and the
+  influenza values against time (in one plot). Is the temporal pattern
+  in the residuals correlated to the outbreaks of influenza? 6 Fit a GAM
+  model in R in which mortality is be modelled as an additive function
+  of the spline functions of year, week, and the number of confirmed
+  cases of influenza. Use the output of this GAM function to conclude
+  whether or not the mortality is influenced by the outbreaks of
+  influenza. Provide the plot of the original and fitted Mortality
+  against Time and comment whether the model seems to be better than the
+  previous GAM models.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(pamr)}
+\KeywordTok{library}\NormalTok{(glmnet)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\KeywordTok{library}\NormalTok{(kernlab)}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(akima)}
+\KeywordTok{library}\NormalTok{(mgcv)}
+\KeywordTok{library}\NormalTok{(readxl)}
+\KeywordTok{library}\NormalTok{(grid)}
+\KeywordTok{library}\NormalTok{(plotly)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#data-file}
+\KeywordTok{library}\NormalTok{(xlsx)}
+\NormalTok{flu_data =}\StringTok{ }\KeywordTok{read.xlsx}\NormalTok{(}\StringTok{"influenza.xlsx"}\NormalTok{, }\DataTypeTok{sheetName =} \StringTok{"Raw data"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(readxl)}
+\NormalTok{influenza<-}\KeywordTok{read_xlsx}\NormalTok{(}\StringTok{"influenza.xlsx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Question1.1-Time series plots to visually inspect how the
+mortality and
+influenza}\label{question1.1-time-series-plots-to-visually-inspect-how-the-mortality-and-influenza}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\CommentTok{#plots}
+\NormalTok{p<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ influenz, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Time, }\DataTypeTok{y =}\NormalTok{ Influenza)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =} \StringTok{"#00AFBB"}\NormalTok{))}
+\NormalTok{p}
+\NormalTok{q<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ influenz, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Time, }\DataTypeTok{y =}\NormalTok{ Mortality)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =} \StringTok{"#00AFBB"}\NormalTok{))}
+\NormalTok{q}
+\end{Highlighting}
+\end{Shaded}
+
+There is increase in influenza cases there is increase in mortality till
+2000. After that influenza seems to be having lesser impact on
+mortality.
+
+\subsection{Question1.2-Fit a GAM
+model}\label{question1.2-fit-a-gam-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gam_model=}\KeywordTok{gam}\NormalTok{(Mortality}\OperatorTok{~}\NormalTok{Year}\OperatorTok{+}\KeywordTok{s}\NormalTok{(Week,}\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenz}\OperatorTok{$}\NormalTok{Week))),}\DataTypeTok{data=}\NormalTok{influenz,}\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{)}
+\NormalTok{gam_model}
+\NormalTok{(or)}
+\NormalTok{res =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week))),}\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\KeywordTok{gam.check}\NormalTok{(res)}
+\NormalTok{(or)}
+\NormalTok{gam_model <-}\StringTok{ }\NormalTok{mgcv}\OperatorTok{::}\KeywordTok{gam}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ flu_data, Mortality}\OperatorTok{~}\NormalTok{Year}\OperatorTok{+}\KeywordTok{s}\NormalTok{(Week), }\DataTypeTok{method =} \StringTok{"GCV.Cp"}\NormalTok{)}
+\KeywordTok{summary}\NormalTok{(gam_model)}
+\end{Highlighting}
+\end{Shaded}
+
+Analysis: Using the default parameter settings within the
+\emph{gam}-function implies that \emph{Mortality} is normally
+distributed (\emph{family=gaussian()}). Also, since \emph{method =
+``GCV.Cp''}, this leads to the usage of GCV (\emph{Generalized Cross
+Validation score}) related to the smoothing parameter estimation. The
+underlying probabilistic model can be written as:
+\[ Mortality = N(\mu, \sigma^2) \]
+\[ \hat{Mortality} = Intercept + \beta_1Year + s(Week) + \epsilon     \]
+where \[ \epsilon = N(0, \sigma^2) .\]
+
+\subsection{Question1.3:-Plot predicted and observed mortality against
+time for the fitted model and comment on the quality of the
+fit.}\label{question1.3-plot-predicted-and-observed-mortality-against-time-for-the-fitted-model-and-comment-on-the-quality-of-the-fit.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predicted <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(res, }\DataTypeTok{newdata =}\NormalTok{ influenza, }\DataTypeTok{type=}\StringTok{'response'}\NormalTok{)}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{influenza) }\OperatorTok{+}
+\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,Mortality), }\DataTypeTok{colour =} \StringTok{"Blue"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,predicted), }\DataTypeTok{colour =} \StringTok{"Red"}\NormalTok{)}
+\KeywordTok{summary}\NormalTok{(res)}
+\KeywordTok{plot}\NormalTok{(res)}\CommentTok{#Plot the spline component}
+\end{Highlighting}
+\end{Shaded}
+
+Analysis:Significant terms in model - According to the p values in the
+summary, Spline function of weekis the most sognificant term.Trend in
+mortality change from one year to another - It seems to be following a
+cyclic trendand seems to have decreased with the years.
+
+\subsection{Question1.4:-the penalty factor of the spline function in
+the GAM
+model}\label{question1.4-the-penalty-factor-of-the-spline-function-in-the-gam-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res2 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\DecValTok{0}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{predicted2 <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(res2, }\DataTypeTok{newdata =}\NormalTok{ influenza, }\DataTypeTok{type=}\StringTok{'response'}\NormalTok{)}
+\NormalTok{p1 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{influenza) }\OperatorTok{+}
+\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,Mortality),}\DataTypeTok{colour =} \StringTok{"Blue"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,predicted2),}\DataTypeTok{colour =} \StringTok{"Red"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"sp = 0"}\NormalTok{)}
+\NormalTok{res3 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\FloatTok{0.01}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{predicted3 <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(res3, }\DataTypeTok{newdata =}\NormalTok{ influenza, }\DataTypeTok{type=}\StringTok{'response'}\NormalTok{)}
+\NormalTok{p2 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{influenza) }\OperatorTok{+}
+\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,Mortality),}\DataTypeTok{colour =} \StringTok{"Blue"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,predicted3),}\DataTypeTok{colour =} \StringTok{"Red"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"sp = 0.01"}\NormalTok{)}
+\NormalTok{res4 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\DecValTok{1}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{predicted4 <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(res4, }\DataTypeTok{newdata =}\NormalTok{ influenza, }\DataTypeTok{type=}\StringTok{'response'}\NormalTok{)}
+\NormalTok{p3 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{influenza) }\OperatorTok{+}
+\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,Mortality),}\DataTypeTok{colour =} \StringTok{"Blue"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(Time,predicted4),}\DataTypeTok{colour =} \StringTok{"Red"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"sp = 1"}\NormalTok{)}
+\KeywordTok{grid.newpage}\NormalTok{()}
+\KeywordTok{grid.draw}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(}\KeywordTok{ggplotGrob}\NormalTok{(p1), }\KeywordTok{ggplotGrob}\NormalTok{(p2), }\KeywordTok{ggplotGrob}\NormalTok{(p3), }\DataTypeTok{size =} \StringTok{"last"}\NormalTok{))}
+\CommentTok{#anova(res2)}
+\CommentTok{#some more models with different sp values}
+\NormalTok{res5 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\FloatTok{1.5}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{res6 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\DecValTok{2}\NormalTok{),}\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{res7 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\DecValTok{3}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{res8 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\DecValTok{6}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{res9 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\DecValTok{9}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\NormalTok{res10 =}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\NormalTok{Year }\OperatorTok{+}
+\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Week)), }\DataTypeTok{sp=}\DecValTok{100}\NormalTok{),}
+\DataTypeTok{method=}\StringTok{"GCV.Cp"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{influenza)}
+\DecValTok{2}\OperatorTok{-}\NormalTok{method}
+\NormalTok{model_deviance <-}\StringTok{ }\OtherTok{NULL}
+\ControlFlowTok{for}\NormalTok{(sp }\ControlFlowTok{in} \KeywordTok{c}\NormalTok{(}\FloatTok{0.001}\NormalTok{, }\FloatTok{0.01}\NormalTok{, }\FloatTok{0.1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{))}
+\NormalTok{\{}
+\NormalTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(flu_data}\OperatorTok{$}\NormalTok{Week))}
+
+\NormalTok{gam_model <-}\StringTok{ }\NormalTok{mgcv}\OperatorTok{::}\KeywordTok{gam}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ flu_data, Mortality}\OperatorTok{~}\NormalTok{Year}\OperatorTok{+}\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\NormalTok{k, }\DataTypeTok{sp=}\NormalTok{sp), }\DataTypeTok{method =} \StringTok{"GCV.Cp"}\NormalTok{)}
+\NormalTok{temp <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(gam_model}\OperatorTok{$}\NormalTok{deviance, gam_model}\OperatorTok{$}\NormalTok{fitted.values, gam_model}\OperatorTok{$}\NormalTok{y, flu_data}\OperatorTok{$}\NormalTok{Time_fixed,}
+\NormalTok{              sp, }\KeywordTok{sum}\NormalTok{(}\KeywordTok{influence}\NormalTok{(gam_model)))}
+\NormalTok{model_deviance <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(temp, model_deviance)}
+\NormalTok{\}}
+\NormalTok{model_deviance <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(model_deviance)}
+\KeywordTok{colnames}\NormalTok{(model_deviance) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Deviance"}\NormalTok{, }\StringTok{"Predicted_Mortality"}\NormalTok{, }\StringTok{"Mortality"}\NormalTok{, }\StringTok{"Time"}\NormalTok{,}
+                              \StringTok{"penalty_factor"}\NormalTok{, }\StringTok{"degree_of_freedom"}\NormalTok{)}
+\NormalTok{model_deviance}\OperatorTok{$}\NormalTok{Time <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(model_deviance}\OperatorTok{$}\NormalTok{Time, }\DataTypeTok{origin =} \StringTok{'1970-01-01'}\NormalTok{)}
+\CommentTok{# plot of deviance}
+\NormalTok{p6 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{model_deviance, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ penalty_factor, }\DataTypeTok{y =}\NormalTok{ Deviance)) }\OperatorTok{+}
+\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
+\StringTok{      }\KeywordTok{theme_light}\NormalTok{() }\OperatorTok{+}
+\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Plot of Deviance of Model vs. Penalty Factor"}\NormalTok{)}
+\NormalTok{p6}
+\CommentTok{# plot of degree of freedom}
+\NormalTok{p7 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{model_deviance, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ penalty_factor, }\DataTypeTok{y =}\NormalTok{ degree_of_freedom)) }\OperatorTok{+}
+\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{() }\OperatorTok{+}
+\StringTok{      }\KeywordTok{theme_light}\NormalTok{() }\OperatorTok{+}
+\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Plot of degree_of_freedom of Model vs. Penalty Factor"}\NormalTok{)}
+\NormalTok{p7}
+\NormalTok{model_deviance_wide <-}\StringTok{ }\KeywordTok{melt}\NormalTok{(model_deviance[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Time"}\NormalTok{, }\StringTok{"penalty_factor"}\NormalTok{,}
+                                              \StringTok{"Mortality"}\NormalTok{, }\StringTok{"Predicted_Mortality"}\NormalTok{)],}
+                            \DataTypeTok{id.vars =} \KeywordTok{c}\NormalTok{(}\StringTok{"Time"}\NormalTok{, }\StringTok{"penalty_factor"}\NormalTok{))}
+\CommentTok{# plot of predicted vs. observed mortality}
+\NormalTok{p8 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{model_deviance_wide[model_deviance_wide}\OperatorTok{$}\NormalTok{penalty_factor }\OperatorTok{==}\StringTok{ }\FloatTok{0.001}\NormalTok{,],}
+             \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{ Time, }\DataTypeTok{y =}\NormalTok{ value)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =}\NormalTok{ variable), }\DataTypeTok{size=}\FloatTok{0.7}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =}\NormalTok{ variable), }\DataTypeTok{size=}\FloatTok{0.7}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\StringTok{"#E69F00"}\NormalTok{, }\StringTok{"#009E73"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_light}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Plot of Mortality vs. Time(Penalty 0.001)"}\NormalTok{)}
+\NormalTok{p9 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{model_deviance_wide[model_deviance_wide}\OperatorTok{$}\NormalTok{penalty_factor }\OperatorTok{==}\StringTok{ }\DecValTok{10}\NormalTok{,],}
+             \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{ Time, }\DataTypeTok{y =}\NormalTok{ value)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =}\NormalTok{ variable), }\DataTypeTok{size=}\FloatTok{0.7}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =}\NormalTok{ variable), }\DataTypeTok{size=}\FloatTok{0.7}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\StringTok{"#E69F00"}\NormalTok{, }\StringTok{"#009E73"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{theme_light}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Plot of Mortality vs. Time(Penalty 10)"}\NormalTok{)}
+\NormalTok{p8}
+\NormalTok{p9}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Question1.5:-plot the residuals and the influenza values
+against time (in one
+plot).}\label{question1.5-plot-the-residuals-and-the-influenza-values-against-time-in-one-plot.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edf is estimated degree of freedom }\ControlFlowTok{if}\NormalTok{ you see res2 u can get edf}
+\NormalTok{edf vs sp}
+\NormalTok{x <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.01}\NormalTok{, }\DecValTok{1}\NormalTok{, }\FloatTok{1.5}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{sum}\NormalTok{(res2}\OperatorTok{$}\NormalTok{edf), }\KeywordTok{sum}\NormalTok{(res3}\OperatorTok{$}\NormalTok{edf), }\KeywordTok{sum}\NormalTok{(res4}\OperatorTok{$}\NormalTok{edf), }\KeywordTok{sum}\NormalTok{(res5}\OperatorTok{$}\NormalTok{edf), }\KeywordTok{sum}\NormalTok{(res6}\OperatorTok{$}\NormalTok{edf),}
+\KeywordTok{sum}\NormalTok{(res7}\OperatorTok{$}\NormalTok{edf), }\KeywordTok{sum}\NormalTok{(res8}\OperatorTok{$}\NormalTok{edf), }\KeywordTok{sum}\NormalTok{(res9}\OperatorTok{$}\NormalTok{edf), }\KeywordTok{sum}\NormalTok{(res10}\OperatorTok{$}\NormalTok{edf))}
+\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(}\DataTypeTok{sp=}\NormalTok{x,}\DataTypeTok{edf=}\NormalTok{y) )}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ influenza, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Time)) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Influenza,}\DataTypeTok{colour =} \StringTok{"Influenza"}\NormalTok{)) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ res}\OperatorTok{$}\NormalTok{residuals,}\DataTypeTok{colour =} \StringTok{"Residuals"}\NormalTok{)) }\OperatorTok{+}
+\KeywordTok{scale_colour_manual}\NormalTok{(}\StringTok{""}\NormalTok{, }\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\StringTok{"Influenza"}\NormalTok{, }\StringTok{"Residuals"}\NormalTok{),}
+\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"Red"}\NormalTok{, }\StringTok{"Blue"}\NormalTok{))}
+\NormalTok{result}
+\CommentTok{# sp edf}
+\CommentTok{# 1 0.00 29.000000}
+\CommentTok{# 2 0.01 6.689771}
+\CommentTok{# 3 1.00 3.491752}
+\CommentTok{# 4 1.50 3.365887}
+\CommentTok{# 5 2.00 3.291922}
+\CommentTok{# 6 3.00 3.208210}
+\CommentTok{# 7 6.00 3.112130}
+\CommentTok{# 8 9.00 3.076759}
+\CommentTok{# 9 100.00 3.007268}
+\CommentTok{#1.5}
+\NormalTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(flu_data}\OperatorTok{$}\NormalTok{Week))}
+\NormalTok{gam_model <-}\StringTok{ }\NormalTok{mgcv}\OperatorTok{::}\KeywordTok{gam}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ flu_data, Mortality}\OperatorTok{~}\NormalTok{Year}\OperatorTok{+}\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\NormalTok{k), }\DataTypeTok{method =} \StringTok{"GCV.Cp"}\NormalTok{)}
+\NormalTok{temp <-}\StringTok{ }\NormalTok{flu_data}
+\NormalTok{temp <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(temp, }\DataTypeTok{residuals =}\NormalTok{ gam_model}\OperatorTok{$}\NormalTok{residuals)}
+\NormalTok{p10 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ temp, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Time_fixed)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{( }\DataTypeTok{y =}\NormalTok{ Influenza, }\DataTypeTok{color =} \StringTok{"Influenza"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ residuals, }\DataTypeTok{color =} \StringTok{"residuals"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{      }\KeywordTok{theme_light}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\DataTypeTok{Influenza =} \StringTok{"#009E73"}\NormalTok{, }\DataTypeTok{residuals =} \StringTok{"#E69F00"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{y =} \StringTok{"Influenza / Residual"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Plot of Influenza Residual vs. Time"}\NormalTok{)}
+\NormalTok{p10}
+\end{Highlighting}
+\end{Shaded}
+
+Analysis:With increase in Penalty factor the degrees of freedom should
+decrease. Our results also confirm this relationship. Initially the
+decline is steep. Some of the peaks in Influenza outbreaks correspond to
+peaks in the residuals of the fitted model. Still,however, a lot of
+variance in the residuals is not correlated to Influenza outbreaks.
+Therefore, I would say that the Influenza outbreaks are not correlated
+to the residuals.
+
+\subsection{Question1.6:-6. Fit a GAM model in R in which mortality is
+be modelled as an additive function of the spline functions of year,
+week, and the number of confirmed cases of
+influenza.}\label{question1.6-6.-fit-a-gam-model-in-r-in-which-mortality-is-be-modelled-as-an-additive-function-of-the-spline-functions-of-year-week-and-the-number-of-confirmed-cases-of-influenza.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new_res=}\KeywordTok{gam}\NormalTok{(Mortality}\OperatorTok{~}\KeywordTok{s}\NormalTok{(Year,}\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Year)))}
+\OperatorTok{+}\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(influenza}\OperatorTok{$}\NormalTok{Year))))this is continued up}
+\KeywordTok{summary}\NormalTok{(new_res)}
+\KeywordTok{plot}\NormalTok{(new_res, }\DataTypeTok{residuals=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{page=}\DecValTok{1}\NormalTok{)}
+\NormalTok{new_predicted <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(new_res, }\DataTypeTok{newdata =}\NormalTok{ influenza, }\DataTypeTok{type=}\StringTok{'response'}\NormalTok{)}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ influenza, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Time)) }\OperatorTok{+}
+\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ Mortality, }\DataTypeTok{colour =} \StringTok{"Mortality"}\NormalTok{)) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ new_predicted,}\DataTypeTok{colour =} \StringTok{"New Model"}\NormalTok{)) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ predicted,}\DataTypeTok{colour =} \StringTok{"Previous Model"}\NormalTok{)) }\OperatorTok{+}
+\KeywordTok{scale_colour_manual}\NormalTok{(}\StringTok{""}\NormalTok{, }\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\StringTok{"Mortality"}\NormalTok{,}\StringTok{"New Model"}\NormalTok{, }\StringTok{"Previous Model"}\NormalTok{),}
+\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"Blue"}\NormalTok{, }\StringTok{"Red"}\NormalTok{, }\StringTok{"Green"}\NormalTok{))}
+\CommentTok{#(or)}
+\NormalTok{gam_model_additive <-}\StringTok{ }\NormalTok{mgcv}\OperatorTok{::}\KeywordTok{gam}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ flu_data, Mortality}\OperatorTok{~}\KeywordTok{s}\NormalTok{(Year)}\OperatorTok{+}\KeywordTok{s}\NormalTok{(Week), }\DataTypeTok{method =} \StringTok{"GCV.Cp"}\NormalTok{)}
+\NormalTok{k1 =}\StringTok{ }\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(flu_data}\OperatorTok{$}\NormalTok{Year))}
+\NormalTok{k2 =}\StringTok{ }\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(flu_data}\OperatorTok{$}\NormalTok{Week))}
+\NormalTok{k3 =}\StringTok{ }\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(flu_data}\OperatorTok{$}\NormalTok{Influenza))}
+\NormalTok{gam_model_additive <-}\StringTok{ }\KeywordTok{gam}\NormalTok{(Mortality }\OperatorTok{~}\StringTok{ }\KeywordTok{s}\NormalTok{(Year, }\DataTypeTok{k=}\NormalTok{k1) }\OperatorTok{+}
+\StringTok{                                     }\KeywordTok{s}\NormalTok{(Week, }\DataTypeTok{k=}\NormalTok{k2) }\OperatorTok{+}
+\StringTok{                                    }\KeywordTok{s}\NormalTok{(Influenza, }\DataTypeTok{k=}\NormalTok{k3),}
+                          \DataTypeTok{data =}\NormalTok{ flu_data)}
+\KeywordTok{summary}\NormalTok{(gam_model_additive)}
+\NormalTok{flu_data}\OperatorTok{$}\NormalTok{fitted.values =}\StringTok{ }\NormalTok{gam_model_additive}\OperatorTok{$}\NormalTok{fitted.values}
+
+\NormalTok{p11 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ flu_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Time_fixed)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{( }\DataTypeTok{y =}\NormalTok{ Mortality, }\DataTypeTok{color =} \StringTok{"Mortality"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ fitted.values, }\DataTypeTok{color =} \StringTok{"fitted.values"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{      }\KeywordTok{theme_light}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\DataTypeTok{Mortality =} \StringTok{"#009E73"}\NormalTok{, }\DataTypeTok{fitted.values =} \StringTok{"#E69F00"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{y =} \StringTok{"Mortality / fitted.values"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Plot of Mortality and Fitted vs. Time"}\NormalTok{)}
+\NormalTok{p11}
+\end{Highlighting}
+\end{Shaded}
+
+Analysis:-From the p values, we can conclude that Influenza cases have
+high impact on mortality The additive GAM model clearly has the best
+fit. Much of the variance of the data (81.9\% is the adjusted R\^{}2) is
+captured by the model. Given that the GAM models in step 2 and step 4 do
+not include the influenza variable from the dataset, and the the model
+above does, one can say that most likely mortality is influenced by the
+outbreaks of influenza.
+
+\section{Assignment 2. High-dimensional
+methods}\label{assignment-2.-high-dimensional-methods}
+
+The data file data.csv contains information about 64 e-mails which were
+manually collected from DBWorld mailing list. They were classified as:
+`announces of conferences' (1) and `everything else' (0) (variable
+Conference) 1. Divide data into training and test sets (70/30) without
+scaling. Perform nearest shrunken centroid classification of training
+data in which the threshold is chosen by cross-validation. Provide a
+centroid plot and interpret it. How many features were selected by the
+method? List the names of the 10 most contributing features and comment
+whether it is reasonable that they have strong effect on the
+discrimination between the conference mails and other mails? Report the
+test error. 2. Compute the test error and the number of the contributing
+features for the following methods fitted to the training data: a.
+Elastic net with the binomial response and \(\alpha\) ????????=0.5 in
+which penalty is selected by the cross-validation b. Support vector
+machine with ``vanilladot'' kernel. Compare the results of these models
+with the results of the nearest shrunken centroids (make a comparative
+table). Which model would you prefer and why? 3. Implement
+Benjamini-Hochberg method for the original data, and use t.test() for
+computing p-values. Which features correspond to the rejected
+hypotheses? Interpret the result
+
+\subsection{Question2.1:- Perform nearest shrunken centroid
+classification}\label{question2.1--perform-nearest-shrunken-centroid-classification}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(pamr)}
+\KeywordTok{library}\NormalTok{(glmnet)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\KeywordTok{library}\NormalTok{(kernlab)}
+\CommentTok{# dividing data into train and test set}
+\NormalTok{data <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file =} \StringTok{"data.csv"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{";"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{fileEncoding =} \StringTok{"Latin1"}\NormalTok{)}
+\NormalTok{data}\OperatorTok{$}\NormalTok{Conference=}\KeywordTok{as.factor}\NormalTok{(data}\OperatorTok{$}\NormalTok{Conference)}
+\KeywordTok{rownames}\NormalTok{(data)=}\DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(data)}
+\NormalTok{n=}\KeywordTok{dim}\NormalTok{(data)[}\DecValTok{1}\NormalTok{]}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{12345}\NormalTok{)}
+\NormalTok{id=}\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{n, }\KeywordTok{floor}\NormalTok{(n}\OperatorTok{*}\FloatTok{0.7}\NormalTok{))}\CommentTok{#0.7 is 70%}
+\NormalTok{train=data[id,]}
+\NormalTok{test=data[}\OperatorTok{-}\NormalTok{id,]}
+\CommentTok{#Perform of training data in which the threshold is chosen}
+\CommentTok{# by cross-validation}
+\NormalTok{x =}\StringTok{ }\KeywordTok{t}\NormalTok{(train[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{])}\CommentTok{#4703 are the variables in the data}
+\NormalTok{y =}\StringTok{ }\NormalTok{train[[}\DecValTok{4703}\NormalTok{]]}
+\NormalTok{x_test =}\StringTok{ }\KeywordTok{t}\NormalTok{(test[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{])}
+\NormalTok{y_test =}\StringTok{ }\NormalTok{test[[}\DecValTok{4703}\NormalTok{]]}
+\NormalTok{mydata=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{x=}\NormalTok{x,}\DataTypeTok{y=}\KeywordTok{as.factor}\NormalTok{(y),}\DataTypeTok{geneid=}\KeywordTok{as.character}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(x)), }\DataTypeTok{genenames=}\KeywordTok{rownames}\NormalTok{(x))}
+\NormalTok{model =}\StringTok{ }\KeywordTok{pamr.train}\NormalTok{(mydata,}\DataTypeTok{threshold=}\KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{4}\NormalTok{, }\FloatTok{0.1}\NormalTok{))}
+\NormalTok{cvmodel=}\KeywordTok{pamr.cv}\NormalTok{(model,mydata)}
+\KeywordTok{pamr.plotcv}\NormalTok{(cvmodel)}
+\CommentTok{# from cv model,when the threshold is 1.3 and 1.4, the error is least. Hence selecting the threshold as #centroid plot}
+\KeywordTok{pamr.plotcen}\NormalTok{(model, mydata, }\DataTypeTok{threshold=}\FloatTok{1.4}\NormalTok{)}
+\CommentTok{# The method selected 231 features}
+\NormalTok{contri_genes=}\KeywordTok{pamr.listgenes}\NormalTok{(model,mydata,}\DataTypeTok{threshold=}\FloatTok{1.4}\NormalTok{)}
+\CommentTok{# 10 most contributing features}
+\NormalTok{imp =}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(contri_genes[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{,}\DecValTok{1}\NormalTok{])}
+\KeywordTok{cat}\NormalTok{( }\KeywordTok{paste}\NormalTok{( }\KeywordTok{colnames}\NormalTok{(data[imp]), }\DataTypeTok{collapse=}\StringTok{'}\CharTok{\textbackslash{}n}\StringTok{'}\NormalTok{ ) )}
+\CommentTok{#test error}
+\NormalTok{pred_test <-}\StringTok{ }\KeywordTok{pamr.predict}\NormalTok{(model, }\DataTypeTok{newx =}\NormalTok{ x_test, }\DataTypeTok{threshold=}\FloatTok{1.4}\NormalTok{)}
+\NormalTok{misclass_table <-}\StringTok{ }\KeywordTok{table}\NormalTok{(y_test,pred_test)}
+\NormalTok{test_error <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(misclass_table))}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(misclass_table)}
+\CommentTok{#Elastic net}
+\NormalTok{x =}\StringTok{ }\NormalTok{train[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{]}\OperatorTok{%>%}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{()}
+\NormalTok{y =}\StringTok{ }\NormalTok{train[[}\DecValTok{4703}\NormalTok{]]}
+\NormalTok{x_test =}\StringTok{ }\NormalTok{test[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{]}\OperatorTok{%>%}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{()}
+\NormalTok{y_test =}\StringTok{ }\NormalTok{test[[}\DecValTok{4703}\NormalTok{]]}
+\NormalTok{cvfit <-}\StringTok{ }\KeywordTok{cv.glmnet}\NormalTok{(x, y, }\DataTypeTok{family =} \StringTok{"binomial"}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.5}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(cvfit)}
+\NormalTok{predict_elastic <-}\StringTok{ }\KeywordTok{predict.cv.glmnet}\NormalTok{(cvfit, }\DataTypeTok{newx =}\NormalTok{ x_test, }\DataTypeTok{s=}\StringTok{"lambda.min"}\NormalTok{,}\DataTypeTok{type =} \StringTok{"class"}\NormalTok{)}
+\NormalTok{coeffs <-}\StringTok{ }\KeywordTok{coef}\NormalTok{(cvfit,}\DataTypeTok{s=}\StringTok{"lambda.min"}\NormalTok{)}
+\NormalTok{e_variables =}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(coeffs[}\KeywordTok{which}\NormalTok{(coeffs[,}\DecValTok{1}\NormalTok{]}\OperatorTok{!=}\DecValTok{0}\NormalTok{),])}
+\NormalTok{cmatrix_elastic <-}\StringTok{ }\KeywordTok{table}\NormalTok{(y_test, predict_elastic)}
+\NormalTok{testerror_elastic <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(cmatrix_elastic))}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(cmatrix_elastic)}
+\end{Highlighting}
+\end{Shaded}
+
+From plot of cross validation model, which shows the depandance of
+misclassification error vs the threshold value, we can see that the
+misclassification error is least when the threshold is 1.3 and 1.4. So
+for this analysis, threshold value of 1.4 is chosen. Nearest centroid
+method computes a standardized centroid for each class. The nearest
+shrunken centroid classification ``shrinks'' the class centroids towards
+zero by threshold, setting it equal to zero if it hits zero. After the
+shrinkage, the new sample is classifies using the centroid rule. So this
+will make the classifier more accurate by reducing the effecte of
+unimportant features so feature selection happens here. Here the
+centroid plot shows the shrunken centroids for each of the variables
+which has non zero differance to the shrunken centroids of two classes.
+The method selected 231 features. The 10 most contributing features are:
+paper, important, submissions, due, published, position, call,
+conferance, dates, candidates All the names and features mentioned above
+are significant in classification of emails as conferance emails or not.
+Test Error : 0.1 - 10\% test error and 90\% accuracy.
+
+\subsection{Question2.2:-SVM}\label{question2.2-svm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SVM}
+\NormalTok{svm_model <-}\StringTok{ }\KeywordTok{ksvm}\NormalTok{(x, y, }\DataTypeTok{type =} \StringTok{'C-svc'}\NormalTok{, }\DataTypeTok{kernel =} \StringTok{"vanilladot"}\NormalTok{, }\DataTypeTok{scale =}\NormalTok{ F)}
+\NormalTok{predict_svm <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(svm_model,}\DataTypeTok{newdata =}\NormalTok{ x_test, }\DataTypeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{mtable_svm <-}\StringTok{ }\KeywordTok{table}\NormalTok{(y_test,predict_svm)}
+\NormalTok{testerror_svm <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\KeywordTok{sum}\NormalTok{(}\KeywordTok{diag}\NormalTok{(mtable_svm))}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(mtable_svm)}
+\CommentTok{# table}
+\NormalTok{table_result <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\StringTok{"Model"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Nearest Shrunken Centroid Model"}\NormalTok{,}
+\StringTok{"ElasticNet Model"}\NormalTok{, }\StringTok{"SVM Model"}\NormalTok{), }\StringTok{"Features"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{231}\NormalTok{,}\DecValTok{40}\NormalTok{,}\DecValTok{41}\NormalTok{),}
+\StringTok{"Error"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(test_error, testerror_elastic,testerror_svm ))}
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(table_result, }\DataTypeTok{caption =} \StringTok{"Model Comparison"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+On comparing all three models, Nearest Shrunken Centeroid model and
+Elastic model has same rate of test error which is 0.1 (10\%) where
+centeroid model takes 231 parameters as contributing parameters whereas
+Elastic net model makes use of less number of features to do the
+prediction as the contributing features. In case of SVM model, it uses
+41 features as contributing features and the error rate is 0.05 or 5\%
+which is less than the above two models and it uses 41 features as
+contributing features which is not significantly differant compared to
+the elastic model. So based on the above two factors, SVM model is
+better for classification of the data because of the accuracy that the
+model provides with less number of features
+
+\section{Question:-2.3-Benjamini-Hochberg
+method}\label{question-2.3-benjamini-hochberg-method}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pvalues <-}\StringTok{ }\KeywordTok{c}\NormalTok{()}
+\NormalTok{x <-}\StringTok{ }\NormalTok{data[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{]}
+\CommentTok{#y <- as.vector(data[,4703])}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{(}\KeywordTok{ncol}\NormalTok{(data)}\OperatorTok{-}\DecValTok{1}\NormalTok{))\{}
+\NormalTok{t_res <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(x[,i]}\OperatorTok{~}\NormalTok{Conference, }\DataTypeTok{data =}\NormalTok{ data)}
+\DecValTok{14}
+\NormalTok{pvalues[i] <-}\StringTok{ }\NormalTok{t_res}\OperatorTok{$}\NormalTok{p.value}
+\NormalTok{\}}
+\NormalTok{p_adj <-}\StringTok{ }\KeywordTok{p.adjust}\NormalTok{(pvalues, }\DataTypeTok{method =} \StringTok{"BH"}\NormalTok{, }\DataTypeTok{n =} \KeywordTok{length}\NormalTok{(pvalues))}
+\NormalTok{p_adj_df <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\StringTok{"feature"}\NormalTok{ =}\StringTok{ }\KeywordTok{colnames}\NormalTok{(data[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{]), }\StringTok{"pvals"}\NormalTok{ =}\StringTok{ }\NormalTok{p_adj)}
+\NormalTok{p_adj_df <-}\StringTok{ }\NormalTok{p_adj_df[}\KeywordTok{which}\NormalTok{(p_adj_df[,}\DecValTok{2}\NormalTok{] }\OperatorTok{<=}\StringTok{ }\FloatTok{0.05}\NormalTok{), ]}
+\NormalTok{num_features <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(p_adj_df)}
+\NormalTok{p_adj_df[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{39}\NormalTok{),}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+We consideres null hypothesis as the feature is not significant for
+analysing if the email is a conferance email and alternate hopothesis:
+The feature is significant in classifying coferance email. From the
+above analysis, we can see that the model selected 39 features as
+significant features by rejecting the null hypothesis(the features with
+p values less than 0.05). The features corresponding to rejected
+hypothesis are: {[}1{]} apply authors call camera candidate candidates
+chairs \#\# {[}36{]} submission team topics workshop 4702 Levels: a4soa
+aaai aachen aalborg aamas aarhus aaron aau abbadi abdalla abdallah
+abductive abilities The above features are the significant features as
+selected by the model. From the above feature list, the words team,
+important, topics, presented, proceedings, helg, org, international,
+call, papers, phd, published etc seems very relevant in classification
+of a conferance email
+
+\section{Assignment 2-2method}\label{assignment-2-2method}
+
+\subsection{2.1.}\label{section}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(}\DataTypeTok{list=}\KeywordTok{ls}\NormalTok{())}
+\KeywordTok{gc}\NormalTok{()}
+\NormalTok{data <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file =} \StringTok{"data.csv"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{";"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n=}\KeywordTok{NROW}\NormalTok{(data)}
+\NormalTok{data}\OperatorTok{$}\NormalTok{Conference <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(data}\OperatorTok{$}\NormalTok{Conference)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{12345}\NormalTok{)}
+\NormalTok{id=}\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{n, }\KeywordTok{floor}\NormalTok{(n}\OperatorTok{*}\FloatTok{0.7}\NormalTok{))}
+\NormalTok{train=data[id,]}
+\NormalTok{test =}\StringTok{ }\NormalTok{data[}\OperatorTok{-}\NormalTok{id,]}
+\KeywordTok{rownames}\NormalTok{(train)=}\DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(train)}
+\NormalTok{x=}\KeywordTok{t}\NormalTok{(train[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{])}
+\NormalTok{y=train[[}\DecValTok{4703}\NormalTok{]]}
+\KeywordTok{rownames}\NormalTok{(test)=}\DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(test)}
+\NormalTok{x_test=}\KeywordTok{t}\NormalTok{(test[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{])}
+\NormalTok{y_test=test[[}\DecValTok{4703}\NormalTok{]]}
+\NormalTok{mydata =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{x=}\NormalTok{x,}\DataTypeTok{y=}\KeywordTok{as.factor}\NormalTok{(y),}\DataTypeTok{geneid=}\KeywordTok{as.character}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(x)), }\DataTypeTok{genenames=}\KeywordTok{rownames}\NormalTok{(x))}
+\NormalTok{mydata_test =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{x=}\NormalTok{x_test,}\DataTypeTok{y=}\KeywordTok{as.factor}\NormalTok{(y_test),}\DataTypeTok{geneid=}\KeywordTok{as.character}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(x)), }\DataTypeTok{genenames=}\KeywordTok{rownames}\NormalTok{(x))}
+\NormalTok{model=}\KeywordTok{pamr.train}\NormalTok{(mydata,}\DataTypeTok{threshold=}\KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{0.1}\NormalTok{))}
+\NormalTok{cvmodel=}\KeywordTok{pamr.cv}\NormalTok{(model, mydata)}
+\NormalTok{important_gen <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{pamr.listgenes}\NormalTok{(model, mydata, }\DataTypeTok{threshold =} \FloatTok{1.3}\NormalTok{))}
+\NormalTok{predicted_scc_test <-}\StringTok{ }\KeywordTok{pamr.predict}\NormalTok{(model, }\DataTypeTok{newx =}\NormalTok{ x_test, }\DataTypeTok{threshold =} \FloatTok{1.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{### plots}
+\KeywordTok{pamr.plotcv}\NormalTok{(cvmodel)}
+\KeywordTok{pamr.plotcen}\NormalTok{(model, mydata, }\DataTypeTok{threshold =} \FloatTok{1.3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{### important features}
+\NormalTok{## List the significant genes}
+\KeywordTok{NROW}\NormalTok{(important_gen)}
+\NormalTok{temp <-}\StringTok{ }\KeywordTok{colnames}\NormalTok{(data) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{()}
+\KeywordTok{colnames}\NormalTok{(temp) <-}\StringTok{ "col_name"}
+\NormalTok{temp}\OperatorTok{$}\NormalTok{index <-}\StringTok{ }\KeywordTok{row.names}\NormalTok{(temp)}
+\NormalTok{df <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ important_gen, }\DataTypeTok{y =}\NormalTok{ temp, }\DataTypeTok{by.x =} \StringTok{"id"}\NormalTok{, }\DataTypeTok{by.y =} \StringTok{"index"}\NormalTok{, }\DataTypeTok{all.x =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{df <-}\StringTok{ }\NormalTok{df[}\KeywordTok{order}\NormalTok{(df[,}\DecValTok{3}\NormalTok{], }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{ ),]}
+\CommentTok{#knitr::kable(head(df[,4],10), caption = "Important feaures selected by Nearest Shrunken Centroids ")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{### confusion table}
+\KeywordTok{library}\NormalTok{(caret)}
+\NormalTok{conf_scc <-}\StringTok{ }\KeywordTok{table}\NormalTok{(y_test, predicted_scc_test)}
+\KeywordTok{names}\NormalTok{(}\KeywordTok{dimnames}\NormalTok{(conf_scc)) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Actual Test"}\NormalTok{, }\StringTok{"Predicted Srunken Centroid Test"}\NormalTok{)}
+\NormalTok{result_scc <-}\StringTok{ }\NormalTok{caret}\OperatorTok{::}\KeywordTok{confusionMatrix}\NormalTok{(conf_scc)}
+\CommentTok{#caret::confusionMatrix(conf_scc)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.2}\label{section-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x =}\StringTok{ }\NormalTok{train[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{] }\OperatorTok{%>%}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{()}
+\NormalTok{y =}\StringTok{ }\NormalTok{train[,}\DecValTok{4703}\NormalTok{]}
+\NormalTok{x_test =}\StringTok{ }\NormalTok{test[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{] }\OperatorTok{%>%}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{()}
+\NormalTok{y_test =}\StringTok{ }\NormalTok{test[,}\DecValTok{4703}\NormalTok{]}
+\NormalTok{cvfit =}\StringTok{ }\KeywordTok{cv.glmnet}\NormalTok{(}\DataTypeTok{x=}\NormalTok{x, }\DataTypeTok{y=}\NormalTok{y, }\DataTypeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{family =}   \StringTok{"binomial"}\NormalTok{)}
+\NormalTok{predicted_elastic_test <-}\StringTok{ }\KeywordTok{predict.cv.glmnet}\NormalTok{(cvfit, }\DataTypeTok{newx =}\NormalTok{ x_test, }\DataTypeTok{s =} \StringTok{"lambda.min"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"class"}\NormalTok{)}
+\NormalTok{tmp_coeffs <-}\StringTok{ }\KeywordTok{coef}\NormalTok{(cvfit, }\DataTypeTok{s =} \StringTok{"lambda.min"}\NormalTok{)}
+\NormalTok{elastic_variable <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{name =}\NormalTok{ tmp_coeffs}\OperatorTok{@}\NormalTok{Dimnames[[}\DecValTok{1}\NormalTok{]][tmp_coeffs}\OperatorTok{@}\NormalTok{i }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{], }\DataTypeTok{coefficient =}\NormalTok{ tmp_coeffs}\OperatorTok{@}\NormalTok{x)}
+\CommentTok{#knitr::kable(elastic_variable, caption = "Contributing features in the elastic model")}
+\NormalTok{conf_elastic_net <-}\StringTok{ }\KeywordTok{table}\NormalTok{(y_test, predicted_elastic_test)}
+\KeywordTok{names}\NormalTok{(}\KeywordTok{dimnames}\NormalTok{(conf_elastic_net)) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Actual Test"}\NormalTok{, }\StringTok{"Predicted ElasticNet Test"}\NormalTok{)}
+\NormalTok{result_elastic_net <-}\StringTok{ }\NormalTok{caret}\OperatorTok{::}\KeywordTok{confusionMatrix}\NormalTok{(conf_elastic_net)}
+\CommentTok{#caret::confusionMatrix(conf_elastic_net)}
+\CommentTok{# svm}
+\NormalTok{svm_fit <-}\StringTok{ }\NormalTok{kernlab}\OperatorTok{::}\KeywordTok{ksvm}\NormalTok{(x, y, }\DataTypeTok{kernel=}\StringTok{"vanilladot"}\NormalTok{, }\DataTypeTok{scale =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{type =} \StringTok{"C-svc"}\NormalTok{)}
+\NormalTok{predicted_svm_test <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(svm_fit, x_test, }\DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+\NormalTok{conf_svm_tree <-}\StringTok{ }\KeywordTok{table}\NormalTok{(y_test, predicted_svm_test)}
+\KeywordTok{names}\NormalTok{(}\KeywordTok{dimnames}\NormalTok{(conf_svm_tree)) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Actual Test"}\NormalTok{, }\StringTok{"Predicted SVM Test"}\NormalTok{)}
+\NormalTok{result_svm <-}\StringTok{ }\NormalTok{caret}\OperatorTok{::}\KeywordTok{confusionMatrix}\NormalTok{(conf_svm_tree)}
+\CommentTok{#caret::confusionMatrix(conf_svm_tree)}
+\CommentTok{# creating table}
+\NormalTok{final_result <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(result_scc}\OperatorTok{$}\NormalTok{overall[[}\DecValTok{1}\NormalTok{]]}\OperatorTok{*}\DecValTok{100}\NormalTok{,}
+\NormalTok{                      result_elastic_net}\OperatorTok{$}\NormalTok{overall[[}\DecValTok{1}\NormalTok{]]}\OperatorTok{*}\DecValTok{100}\NormalTok{,}
+\NormalTok{                      result_svm}\OperatorTok{$}\NormalTok{overall[[}\DecValTok{1}\NormalTok{]] }\OperatorTok{*}\DecValTok{100}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{()}
+\NormalTok{features_count <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\KeywordTok{NROW}\NormalTok{(important_gen), }\KeywordTok{NROW}\NormalTok{(elastic_variable), }\KeywordTok{NCOL}\NormalTok{(data))}
+\NormalTok{final_result <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(final_result, features_count)}
+\KeywordTok{colnames}\NormalTok{(final_result) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Nearest Shrunken Centroid Model"}\NormalTok{,}
+                            \StringTok{"ElasticNet Model"}\NormalTok{, }\StringTok{"SVM Model"}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(final_result) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Accuracy"}\NormalTok{, }\StringTok{"Number of Features"}\NormalTok{)}
+\CommentTok{#knitr::kable(final_result, caption = "Comparsion of Models on Test dataset")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.3. Implement Benjamini-Hochberg method for the original
+data, and use t.test() for computing p-values. Which features correspond
+to the rejected hypotheses? Interpret the
+result.}\label{implement-benjamini-hochberg-method-for-the-original-data-and-use-t.test-for-computing-p-values.-which-features-correspond-to-the-rejected-hypotheses-interpret-the-result.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(data[,}\DecValTok{4703}\NormalTok{])}
+\NormalTok{x <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(data[,}\OperatorTok{-}\DecValTok{4703}\NormalTok{])}
+\NormalTok{p_values <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{feature =} \StringTok{''}\NormalTok{,}\DataTypeTok{P_value =} \DecValTok{0}\NormalTok{,}\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(x))\{}
+\NormalTok{res =}\StringTok{ }\KeywordTok{t.test}\NormalTok{(x[,i]}\OperatorTok{~}\NormalTok{y, }\DataTypeTok{data =}\NormalTok{ data,}
+\DataTypeTok{alternative=}\StringTok{"two.sided"}
+\NormalTok{,}\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\NormalTok{p_values[i,] <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{colnames}\NormalTok{(x)[i],res}\OperatorTok{$}\NormalTok{p.value)}
+\NormalTok{\}}
+\NormalTok{p_values}\OperatorTok{$}\NormalTok{P_value <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(p_values}\OperatorTok{$}\NormalTok{P_value)}
+\NormalTok{p <-}\StringTok{ }\KeywordTok{p.adjust}\NormalTok{(p_values}\OperatorTok{$}\NormalTok{P_value, }\DataTypeTok{method =} \StringTok{'BH'}\NormalTok{)}
+\KeywordTok{length}\NormalTok{(p[}\KeywordTok{which}\NormalTok{(p }\OperatorTok{>}\StringTok{ }\FloatTok{0.05}\NormalTok{)])}
+\NormalTok{out <-}\StringTok{ }\NormalTok{p_values[}\KeywordTok{which}\NormalTok{(p }\OperatorTok{<=}\StringTok{ }\FloatTok{0.05}\NormalTok{),]}
+\NormalTok{out <-}\StringTok{ }\NormalTok{out[}\KeywordTok{order}\NormalTok{(out}\OperatorTok{$}\NormalTok{P_value),]}
+\KeywordTok{rownames}\NormalTok{(out) <-}\StringTok{ }\OtherTok{NULL}
+\CommentTok{#out}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

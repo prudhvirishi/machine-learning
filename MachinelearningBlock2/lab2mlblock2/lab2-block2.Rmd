@@ -1,0 +1,369 @@
+---
+title: "lab2-block2"
+author: "Prudhvi Peddmallu"
+date: "20 April 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+library(pamr)
+library(glmnet)
+library(dplyr)
+library(kernlab)
+library(ggplot2)
+library(akima)
+library(mgcv)
+library(readxl)
+library(grid)
+library(plotly)
+library(dplyr)
+```
+
+
+# Assignment 1
+
+## Loading The Libraries
+```{r, message=FALSE, echo = TRUE}
+# if (!require("pacman")) install.packages("pacman")
+# pacman::p_load(xlsx, ggplot2, tidyr, dplyr, reshape2, gridExtra, 
+#                mgcv, rgl, akima, pamr, caret, glmnet, kernlab)
+set.seed(12345)
+options("jtools-digits" = 2, scipen = 999, width=80)
+# colours (colour blind friendly)
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", 
+               "#D55E00", "#CC79A7")
+## Making title in the center
+theme_update(plot.title = element_text(hjust = 0.5))
+```
+
+##1. Use time series plots to visually inspect how the mortality and influenza number vary with time (use Time as X axis). By using this plot, comment how the amounts of influenza cases are related to mortality rates.
+
+```{r}
+set.seed(12345)
+# Importing data
+#influenz<-read_xlsx("influenza.xlsx")
+library(xlsx)
+flu_data = read.xlsx("influenza.xlsx", sheetName = "Raw data")
+flu_data$Time_fixed <- as.Date(paste(flu_data$Year, flu_data$Week, 1, sep="-"), "%Y-%U-%u")
+flu_data$influ_perc <- (flu_data$Influenza/flu_data$Mortality) * 100
+# Plot
+p1 <- ggplot(flu_data, aes(x=Time_fixed, y = Mortality)) + 
+  geom_line(color = "#999999", size = 1) +
+  geom_smooth(method = "loess") +
+    scale_fill_brewer() +
+      theme_light() +
+  ggtitle("Time series of Mortality") 
+p2 <- ggplot(flu_data, aes(x=Time_fixed, y = Influenza)) + 
+  geom_line(color = "#E69F00", size = 1) +
+      scale_fill_brewer() +
+      theme_light() +
+  ggtitle("Time series of Influenza") 
+p3 <- ggplot(flu_data, aes(x=Time_fixed, y = influ_perc)) + 
+  geom_line(color = "#56B4E9", size = 1) + 
+      scale_fill_brewer() +
+      theme_light() +
+  ggtitle("Time series of % Mortalitiy due to Influenza") 
+gridExtra::grid.arrange(p1, p2, ncol=1)
+p3
+```
+Analsis: From the plots is we can defintely see that Influenza and Mortalitiy in the given dataset are in sync, everytime Mortality peaks so does influenza, however the magnitiude of peaking is not in sync, that is the highest cases of mortaility were observed in '1996' while for influenza its in year '2000'.
+
+From the third plot, we can see the percentage of mortalitiy due to influenza, here also the peaks match with the other plots, suggests that these two events are closely correleated.
+
+##2. Use gam() function from mgcv package to fit a GAM model in which Mortality is normally distributed and modelled as a linear function of Year and spline function of Week, and make sure that the model parameters are selected by the generalized cross-validation. Report the underlying probabilistic model.
+
+```{r}
+gam_model <- mgcv::gam(data = flu_data, Mortality~Year+s(Week), method = "GCV.Cp")
+summary(gam_model)
+#plot the fit
+```
+
+Analysis: 
+
+Using the default parameter settings within the *gam*-function implies that *Mortality* is normally distributed (*family=gaussian()*). Also, since *method = "GCV.Cp"*, this leads to the usage of GCV (*Generalized Cross Validation score*) related to the smoothing parameter estimation.
+The underlying probabilistic model can be written as:
+$$ Mortality = N(\mu, \sigma^2) $$
+$$ \hat{Mortality} = Intercept + \beta_1Year + s(Week) + \epsilon	  $$
+where $$ \epsilon = N(0, \sigma^2) .$$
+
+##3. Plot predicted and observed mortality against time for the fitted model and comment on the quality of the fit. Investigate the output of the GAM model and report which terms appear to be significant in the model. Is there a trend in mortality change from one year to another? Plot the spline component and interpret the plot.
+
+```{r}
+library(gridExtra)
+temp <- flu_data
+temp$Fitted_Mortality <- gam_model$fitted.values
+p5 <- ggplot(data=temp, aes(x = Time_fixed, y = Fitted_Mortality)) +
+   geom_line(color = "#009E73", size = 1) +
+    scale_fill_brewer() +
+      theme_light() +
+  ggtitle("Time series of Fitted Mortality")  
+grid.arrange(p1, p5, nrow = 2)
+summary(gam_model)
+gam.check(gam_model,pch=19,cex=.3)
+plot(gam_model)
+# s=interp(temp$Year,temp$Week, fitted(gam_model))
+# persp3d(s$x, s$y, s$z, col="red")
+```
+
+Analysis: 
+
+We see that the predicted mortality a cyclical component (repeating function), while the true mortality varyies with time. Thus this is not a very good model this is further supported by the fact that our adjusted R^2 is just 66.1%, thus our model accounts for only about 66% of varience.
+
+From the model summary we can see that the p-value of the spline of Week is less than 0.05 while the p-values of Intercept and Year is more than 0.5 (A low p-value (< 0.05) indicates that you can reject the null hypothesis).We see that there is a trend component of Mortality is overall decreasing, we also see that peaks of mortality decreases thrice and rise again.  
+
+From the plot of spline component, we can see that there are 5 knots or 5 components. Clearly, at the beginning and end of the year mortality rates are very much higher than in the middel of the year. When one thinks of this, this makes sense. Influenzia affects people more in winter periods, thus the beginning and end of the calendar year, whereas in summer, the middle of the calendar year, people suffer less from influenzia, and thus less people die. 
+
+##4. Examine how the penalty factor of the spline function in the GAM model from step 2 influences the estimated deviance of the model. Make plots of the predicted and observed mortality against time for cases of very high and very low penalty factors. What is the relation of the penalty factor to the degrees of freedom? Do your results confirm this relationship?
+
+```{r, warning=FALSE}
+model_deviance <- NULL
+for(sp in c(0.001, 0.01, 0.1, 1, 10))
+{
+  k=length(unique(flu_data$Week))
+  
+gam_model <- mgcv::gam(data = flu_data, Mortality~Year+s(Week, k=k, sp=sp), method = "GCV.Cp")
+temp <- cbind(gam_model$deviance, gam_model$fitted.values, gam_model$y, flu_data$Time_fixed,  
+              sp, sum(influence(gam_model)))
+model_deviance <- rbind(temp, model_deviance)
+}
+model_deviance <- as.data.frame(model_deviance)
+colnames(model_deviance) <- c("Deviance", "Predicted_Mortality", "Mortality", "Time", 
+                              "penalty_factor", "degree_of_freedom")
+model_deviance$Time <- as.Date(model_deviance$Time, origin = '1970-01-01')
+# plot of deviance
+p6 <- ggplot(data=model_deviance, aes(x = penalty_factor, y = Deviance)) +
+geom_point() +
+  geom_line() +
+      theme_light() +
+ggtitle("Plot of Deviance of Model vs. Penalty Factor")
+p6
+# plot of degree of freedom
+p7 <- ggplot(data=model_deviance, aes(x = penalty_factor, y = degree_of_freedom)) +
+geom_point() +
+  geom_line() +
+      theme_light() +
+ggtitle("Plot of degree_of_freedom of Model vs. Penalty Factor")
+p7
+model_deviance_wide <- melt(model_deviance[,c("Time", "penalty_factor", 
+                                              "Mortality", "Predicted_Mortality")], 
+                            id.vars = c("Time", "penalty_factor"))
+# plot of predicted vs. observed mortality
+p8 <- ggplot(data=model_deviance_wide[model_deviance_wide$penalty_factor == 0.001,], 
+             aes(x= Time, y = value)) + 
+  geom_point(aes(color = variable), size=0.7) +
+  geom_line(aes(color = variable), size=0.7) +
+  scale_color_manual(values=c("#E69F00", "#009E73")) +
+  theme_light() +
+  ggtitle("Plot of Mortality vs. Time(Penalty 0.001)")
+p9 <- ggplot(data=model_deviance_wide[model_deviance_wide$penalty_factor == 10,], 
+             aes(x= Time, y = value)) + 
+  geom_point(aes(color = variable), size=0.7) +
+    geom_line(aes(color = variable), size=0.7) +
+  scale_color_manual(values=c("#E69F00", "#009E73")) +
+    theme_light() +
+  ggtitle("Plot of Mortality vs. Time(Penalty 10)")
+p8
+p9
+```
+
+Analysis: 
+
+Penalty factor in the model determines the complexity of the model, higher the penalty factor the more the model will have bias and hence lesser the complexity. We can see that as the penalty factor increases the degree of freedom decreases.
+
+From the plots of degree of freedom vs. penalty factor we see that our result to confirm our hypothesis.
+
+##5. Use the model obtained in step 2 and plot the residuals and the influenza values against time (in one plot). Is the temporal pattern in the residuals correlated to the outbreaks of influenza?
+
+```{r}
+k=length(unique(flu_data$Week))
+gam_model <- mgcv::gam(data = flu_data, Mortality~Year+s(Week, k=k), method = "GCV.Cp")
+temp <- flu_data
+temp <- cbind(temp, residuals = gam_model$residuals)
+p10 <- ggplot(data = temp, aes(x = Time_fixed)) +
+  geom_line(aes( y = Influenza, color = "Influenza")) +
+  geom_line(aes(y = residuals, color = "residuals")) +
+      theme_light() +
+  scale_color_manual(values=c(Influenza = "#009E73", residuals = "#E69F00")) +
+  labs(y = "Influenza / Residual") +
+  ggtitle("Plot of Influenza Residual vs. Time")
+p10
+  
+```
+
+Analysis: 
+
+Some of the peaks in Influenza outbreaks correspond to peaks in the residuals of the fitted model. Still,
+however, a lot of variance in the residuals is not correlated to Influenza outbreaks. Therefore, I would say
+that the Influenza outbreaks are not correlated to the residuals.
+
+
+
+##6. Fit a GAM model in R in which mortality is be modelled as an additive function of the spline functions of year, week, and the number of confirmed cases of influenza. Use the output of this GAM function to conclude whether or not the mortality is influenced by the outbreaks of influenza. Provide the plot of the original and fitted Mortality against Time and comment whether the model seems to be better than the previous GAM models.
+
+```{r}
+#gam_model_additive <- mgcv::gam(data = flu_data, Mortality~s(Year)+s(Week), method = "GCV.Cp")
+k1 = length(unique(flu_data$Year))
+k2 = length(unique(flu_data$Week))
+k3 = length(unique(flu_data$Influenza))
+gam_model_additive <- gam(Mortality ~ s(Year, k=k1) + 
+                                     s(Week, k=k2) +
+                                    s(Influenza, k=k3), 
+                          data = flu_data)
+summary(gam_model_additive)
+flu_data$fitted.values = gam_model_additive$fitted.values
+                    
+p11 <- ggplot(data = flu_data, aes(x = Time_fixed)) +
+  geom_line(aes( y = Mortality, color = "Mortality")) +
+  geom_line(aes(y = fitted.values, color = "fitted.values")) +
+      theme_light() +
+  scale_color_manual(values=c(Mortality = "#009E73", fitted.values = "#E69F00")) +
+  labs(y = "Mortality / fitted.values") +
+  ggtitle("Plot of Mortality and Fitted vs. Time")
+p11
+                    
+```
+
+Analysis:
+
+The additive GAM model clearly has the best fit. Much of the variance of the data (81.9% is the adjusted R^2) is captured by the model. Given that the GAM models in step 2 and step 4 do not include the influenza variable from the dataset, and the the model above does, one can say that most likely mortality is influenced by the outbreaks of influenza. 
+
+# Assignment 2
+
+##1. Divide data into training and test sets (70/30) without scaling. Perform nearest shrunken centroid classification of training data in which the threshold is chosen by cross-validation. Provide a centroid plot and interpret it. How many features were selected by the method? List the names of the 10 most contributing features and comment whether it is reasonable that they have strong effect on the discrimination between the conference mails and other mails? Report the test error.
+
+```{r, message=FALSE, warning=FALSE, results=FALSE}
+rm(list=ls())
+gc()
+data <- read.csv(file = "data.csv", sep = ";", header = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, results=FALSE}
+n=NROW(data)
+data$Conference <- as.factor(data$Conference)
+set.seed(12345) 
+id=sample(1:n, floor(n*0.7)) 
+train=data[id,] 
+test = data[-id,]
+rownames(train)=1:nrow(train)
+x=t(train[,-4703])
+y=train[[4703]]
+rownames(test)=1:nrow(test)
+x_test=t(test[,-4703])
+y_test=test[[4703]]
+mydata = list(x=x,y=as.factor(y),geneid=as.character(1:nrow(x)), genenames=rownames(x))
+mydata_test = list(x=x_test,y=as.factor(y_test),geneid=as.character(1:nrow(x)), genenames=rownames(x))
+model=pamr.train(mydata,threshold=seq(0, 4, 0.1))
+cvmodel=pamr.cv(model, mydata)
+important_gen <- as.data.frame(pamr.listgenes(model, mydata, threshold = 1.3))
+predicted_scc_test <- pamr.predict(model, newx = x_test, threshold = 1.3)
+```
+
+### plots
+```{r, fig.height=9}
+pamr.plotcv(cvmodel)
+pamr.plotcen(model, mydata, threshold = 1.3)
+```
+### important features
+```{r}
+## List the significant genes
+NROW(important_gen)
+temp <- colnames(data) %>% as.data.frame()
+colnames(temp) <- "col_name"
+temp$index <- row.names(temp)
+df <- merge(x = important_gen, y = temp, by.x = "id", by.y = "index", all.x = TRUE)
+df <- df[order(df[,3], decreasing = TRUE ),]
+knitr::kable(head(df[,4],10), caption = "Important feaures selected by Nearest Shrunken Centroids ")
+```
+
+
+### confusion table
+```{r}
+conf_scc <- table(y_test, predicted_scc_test)
+names(dimnames(conf_scc)) <- c("Actual Test", "Predicted Srunken Centroid Test")
+result_scc <- caret::confusionMatrix(conf_scc)
+caret::confusionMatrix(conf_scc)
+```
+Analysis: 
+
+From the plot of thershold vs. misclassification error we can see that for the thershold value of 1.3, the class error is lowest.
+
+231 features were selected by this model as the most important features. The top ten features of the model are given by the table above, from this table we can see that the features selected are logical in nature, example "conference", "papers" etc.
+
+The test error is just 10% (accuracy is 90%) and the ability of our model to classify non-conference is 100%, while its ability to classifiy conference mail is 80%, the accuracy along with low number of samples hints that our model may very well be overfitted.
+
+##2. Compute the test error and the number of the contributing features for the following methods fitted to the training data: a. Elastic net with the binomial response and alpha = 0.5 in which penalty is selected by the cross-validation. b. Support vector machine with "vanilladot" kernel. Compare the results of these models with the results of the nearest shrunken centroids (make a comparative table). Which model would you prefer and why?
+
+```{r}
+x = train[,-4703] %>% as.matrix()
+y = train[,4703]
+x_test = test[,-4703] %>% as.matrix()
+y_test = test[,4703]
+cvfit = cv.glmnet(x=x, y=y, alpha = 0.5, family =   "binomial")
+predicted_elastic_test <- predict.cv.glmnet(cvfit, newx = x_test, s = "lambda.min", type = "class")
+tmp_coeffs <- coef(cvfit, s = "lambda.min")
+elastic_variable <- data.frame(name = tmp_coeffs@Dimnames[[1]][tmp_coeffs@i + 1], coefficient = tmp_coeffs@x)
+knitr::kable(elastic_variable, caption = "Contributing features in the elastic model")
+conf_elastic_net <- table(y_test, predicted_elastic_test)
+names(dimnames(conf_elastic_net)) <- c("Actual Test", "Predicted ElasticNet Test")
+result_elastic_net <- caret::confusionMatrix(conf_elastic_net)
+caret::confusionMatrix(conf_elastic_net)
+# svm
+svm_fit <- kernlab::ksvm(x, y, kernel="vanilladot", scale = FALSE, type = "C-svc")
+predicted_svm_test <- predict(svm_fit, x_test, type="response")
+conf_svm_tree <- table(y_test, predicted_svm_test)
+names(dimnames(conf_svm_tree)) <- c("Actual Test", "Predicted SVM Test")
+result_svm <- caret::confusionMatrix(conf_svm_tree)
+caret::confusionMatrix(conf_svm_tree)
+# creating table
+final_result <- cbind(result_scc$overall[[1]]*100, 
+                      result_elastic_net$overall[[1]]*100, 
+                      result_svm$overall[[1]] *100) %>% as.data.frame()
+features_count <- cbind(NROW(important_gen), NROW(elastic_variable), NCOL(data))
+final_result <- rbind(final_result, features_count)
+colnames(final_result) <- c("Nearest Shrunken Centroid Model", 
+                            "ElasticNet Model", "SVM Model")
+rownames(final_result) <- c("Accuracy", "Number of Features")
+knitr::kable(final_result, caption = "Comparsion of Models on Test dataset")
+```
+
+Analysis: 
+
+33 variables were selected by the elastic net model as the features for classifying the mails as conference, while the svm model selects 4703 features to classify the mails.
+
+From the model comparsion we see that overall choosing SVM gives us the best accuracy, while Nearest Centroid Model and Elastic Net model both have the same accuracy, however this is not a strong point given the low number of samples. From the coefficents of the elastic net we can see that the features choosen from the elastic net are far more reasonable than the once choosen by Nearest Centroid model, thus Elastic Net features selection is superior to Nearest Centroid model in quality and quantity too.
+
+For SVM even though the model has good accuracy the sheer number of features used makes choosing this hard, although it should be noted that choosing SVM works very well when we are dealing with a sparse dataset.
+
+
+##3. Implement Benjamini-Hochberg method for the original data, and use t.test() for computing p-values. Which features correspond to the rejected hypotheses? Interpret the result.
+
+```{r}
+y <- as.factor(data[,4703])
+x <- as.matrix(data[,-4703])
+p_values <- data.frame(feature = '',P_value = 0,stringsAsFactors = FALSE)
+for(i in 1:ncol(x)){
+res = t.test(x[,i]~y, data = data,
+alternative="two.sided"
+,conf.level = 0.95)
+p_values[i,] <- c(colnames(x)[i],res$p.value)
+}
+p_values$P_value <- as.numeric(p_values$P_value)
+p <- p.adjust(p_values$P_value, method = 'BH')
+length(p[which(p > 0.05)])
+out <- p_values[which(p <= 0.05),]
+out <- out[order(out$P_value),]
+rownames(out) <- NULL
+out
+```
+
+Analysis:
+
+Based on Benjamini-Hochberg method, 4663 features do not affect the response and just using 39 remaining
+variables in modeling is reasonable.
